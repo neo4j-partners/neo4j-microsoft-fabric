@@ -6,7 +6,7 @@ supplierFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakeh
 orderDetailFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/orderdetails.json'};
 CALL apoc.load.jsonParams($productFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (product:Product{productID:value.productID})
-SET product.name = value.name
+SET product.name = value.name, product.quantityPerUnit=value.quantityPerUnit, product.unitPrice=value.unitPrice, product.unitsInStock=value.unitsInStock, product.reorderLevel=value.reorderLevel, product.discontinued=value.discontinued
 with product, value 
 UNWIND value.categoryID  AS category
 MERGE (cat:Category{categoryID: value.categoryID})
