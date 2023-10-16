@@ -2,7 +2,8 @@
 productFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/products.json',
 customerFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/customers.json',
 orderFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/orders.json',
-supplierFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/suppliers.json'};
+supplierFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/suppliers.json',
+orderDetailFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/orderdetails.json'};
 CALL apoc.load.jsonParams($productFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (product:Product{productID:value.productID})
 SET product.name = value.name
@@ -49,3 +50,7 @@ WITH o, value
 UNWIND value.customerID AS customer
 MERGE (customerOrd:Customer{customerID:value.customerID})
 MERGE (o)-[:ORDERED_BY]->(customerOrd);
+WITH o, value
+UNWIND value.employeeID AS emp
+MERGE (emp:Employee{employeeID:value.employeeID})
+MERGE (o)-[:ORDER_PROCESSED_BY]->(emp);
