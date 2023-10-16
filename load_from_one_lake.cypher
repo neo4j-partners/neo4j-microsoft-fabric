@@ -1,4 +1,4 @@
-:params {accessToken:'Bearer token',
+:params {accessToken:'Bearer $ACCESS_TOKEN',
 productFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/products.json',
 customerFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/customers.json',
 orderFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/orders.json',
