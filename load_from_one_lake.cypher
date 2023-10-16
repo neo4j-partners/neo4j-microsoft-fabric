@@ -42,9 +42,10 @@ YIELD value MERGE (o:Order{orderID:value.orderID})
 SET o.orderDate = value.orderDate, o.shippedDate=value.shippedDate,o.shipVia=value.shipVia,o.freight=value.freight
 WITH o, value
 UNWIND value.orderID AS address
-MERGE (saddr:ShippingAddress{addressID: value.orderID})
+MERGE (saddr:Address{addressID: value.orderID})
 SET saddr.shipAddress = value.shipAddress, saddr.shipCity=value.shipCity,saddr.shipRegion=value.shipRegion,saddr.shipPostalCode=value.shipPostalCode,saddr.shipCountry=value.shipCountry
 MERGE (o)-[:SHIPPED_TO]->(saddr)
 WITH o, value
 UNWIND value.customerID AS customer
-MERGE (o)-[:ORDERED_BY]->(customer);
+MERGE (customerOrd:Customer{customerID:value.customerID})
+MERGE (o)-[:ORDERED_BY]->(customerOrd);
