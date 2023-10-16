@@ -52,5 +52,5 @@ MERGE (customerOrd:Customer{customerID:value.customerID})
 MERGE (o)-[:ORDERED_BY]->(customerOrd);
 WITH o, value
 UNWIND value.employeeID AS emp
-MERGE (emp:Employee{employeeID:value.employeeID})
-MERGE (o)-[:ORDER_PROCESSED_BY]->(emp);
+MERGE (empOrd:Employee{employeeID:value.employeeID})
+MERGE (o)-[:ORDER_PROCESSED_BY]->(empOrd);
