@@ -15,7 +15,7 @@ This repository contains three different methods to load data from Microsoft Fab
 - It's the simplest and most straightforward way to load data into Neo4j, making it perfect for experimental purposes.
 - The script uses APOC Load JSON procedures to retrieve data from URLs or maps and transform it into map values that Cypher can consume. Cypher supports deconstructing nested documents with features like dot syntax, slices, UNWIND, and more, making it easy to turn nested data into graphs.
 
-## Method 3: Getting an Access Token (get_access_token.sh)
+## Utility: Getting an Access Token (get_access_token.sh)
 
 **Description:**
 - The purpose of this shell script is to obtain an access token from Azure Active Directory.
