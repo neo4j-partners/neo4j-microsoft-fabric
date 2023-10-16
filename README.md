@@ -1,4 +1,4 @@
-# Microsoft Fabric's Lakehouse Data Loading Methods
+# Loading data from Microsoft Fabric's Lakehouse into Neo4j Graph Database
 
 This repository contains three different methods to load data from Microsoft Fabric's Lakehouse into Neo4j using various technologies. Whether you prefer using Spark, Cypher queries, or a shell script to get an access token, you'll find a solution that suits your needs.
 
