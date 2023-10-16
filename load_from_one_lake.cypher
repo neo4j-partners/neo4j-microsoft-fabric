@@ -47,5 +47,4 @@ SET saddr.shipAddress = value.shipAddress, saddr.shipCity=value.shipCity,saddr.s
 MERGE (o)-[:SHIPPED_TO]->(saddr)
 WITH o, value
 UNWIND value.customerID AS customer
-MERGE (customer:Customer{customerID:value.customerID})
 MERGE (o)-[:ORDERED_BY]->(customer);
