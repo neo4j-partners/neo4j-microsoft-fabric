@@ -5,7 +5,7 @@ This repository contains three different methods to load data from Microsoft Fab
 ## Method 1: Using Spark Jupyter Notebook (load_from_spark.ipynb)
 
 **Description:**
-- This Spark-based Python code allows you to read data from Microsoft Fabric's Lakehouse using the Bolt connector.
+- This Spark-based Python code allows you to read data from Microsoft Fabric's Lakehouse.
 - You can read any set of nodes or relationships as a DataFrame in Spark, making it ideal for handling large volumes of data with high performance.
 
 ## Method 2: Using Cypher Queries (load_from_lakehouse.cypher)
@@ -19,7 +19,7 @@ This repository contains three different methods to load data from Microsoft Fab
 
 **Description:**
 - The purpose of this shell script is to obtain an access token from Azure Active Directory.
-- You can use this access token to update the Cypher queries file, allowing secure access to Microsoft Fabric's Lakehouse.
+- You can use this access token in the Cypher file, to allow Neo4j to access Microsoft Fabric's Lakehouse content securely.
 
 Please refer to the individual script files for detailed usage instructions. You'll find the necessary information to get started with these data loading methods.
 
