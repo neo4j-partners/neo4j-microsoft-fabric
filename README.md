@@ -5,7 +5,7 @@ This repository contains three different methods to load data from Microsoft Fab
 ## Method 1: Using Spark Jupyter Notebook (load_from_spark.ipynb)
 
 **Description:**
-- This Spark-based Python code allows you to read data from Microsoft Fabric's Lakehouse.
+- This Spark-based Python code allows you to read data from Microsoft Fabric's Lakehouse using Fabric Data Engineering module.
 - You can read any set of nodes or relationships as a DataFrame in Spark, making it ideal for handling large volumes of data with high performance.
 
 ## Method 2: Using Cypher Queries (load_from_lakehouse.cypher)
