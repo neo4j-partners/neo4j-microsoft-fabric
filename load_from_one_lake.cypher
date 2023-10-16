@@ -11,7 +11,11 @@ with product, value
 UNWIND value.categoryID  AS category
 MERGE (cat:Category{categoryID: value.categoryID})
 SET cat.categoryName = value.categoryName, cat.description=value.description
-MERGE (product)-[:BELONGS_TO]->(cat);
+MERGE (product)-[:BELONGS_TO]->(cat)
+with product, value 
+UNWIND value.supplierID AS supplier
+MERGE (supp:Supplier{supplierID: value.supplierID})
+MERGE (product)-[:SUPPLIED_BY]->(supp);
 CALL apoc.load.jsonParams($customerFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (c:Customer{customerID:value.customerID})
 SET c.companyName = value.companyName, c.Bloom_Link=value.Bloom_Link
