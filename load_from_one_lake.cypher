@@ -49,7 +49,7 @@ MERGE (o)-[:SHIPPED_TO]->(saddr)
 WITH o, value
 UNWIND value.customerID AS customer
 MERGE (customerOrd:Customer{customerID:value.customerID})
-MERGE (o)-[:ORDERED_BY]->(customerOrd);
+MERGE (o)-[:ORDERED_BY]->(customerOrd)
 WITH o, value
 UNWIND value.employeeID AS emp
 MERGE (empOrd:Employee{employeeID:value.employeeID})
