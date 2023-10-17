@@ -19,7 +19,7 @@ MERGE (supp:Supplier{supplierID: value.supplierID})
 MERGE (product)-[:SUPPLIED_BY]->(supp);
 CALL apoc.load.jsonParams($categoriesFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (category:Category{categoryID:value.categoryID})
-SET category.categoryName = value.categoryName, category.description=value.description, category.picture=value.picture
+SET category.categoryName = value.categoryName, category.description=value.description, category.picture=value.picture;
 CALL apoc.load.jsonParams($customerFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (c:Customer{customerID:value.customerID})
 SET c.companyName = value.companyName, c.Bloom_Link=value.Bloom_Link
