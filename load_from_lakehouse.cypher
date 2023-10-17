@@ -1,5 +1,6 @@
 :params {accessToken:'Bearer $ACCESS_TOKEN',
 productFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/products.json',
+categoriesFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/categories.json',
 customerFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/customers.json',
 orderFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/orders.json',
 supplierFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/suppliers.json',
@@ -16,6 +17,9 @@ with product, value
 UNWIND value.supplierID AS supplier
 MERGE (supp:Supplier{supplierID: value.supplierID})
 MERGE (product)-[:SUPPLIED_BY]->(supp);
+CALL apoc.load.jsonParams($categoriesFileURL,{Authorization:$accessToken},null)
+YIELD value MERGE (category:Category{categoryID:value.categoryID})
+SET category.categoryName = value.categoryName, category.description=value.description, category.picture=value.picture
 CALL apoc.load.jsonParams($customerFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (c:Customer{customerID:value.customerID})
 SET c.companyName = value.companyName, c.Bloom_Link=value.Bloom_Link
