@@ -6,10 +6,10 @@ git reset --hard
 
 git pull https://github.com/neo4j-partners/neo4j-microsoft-fabrlc.git
 
-envsubst '$ACCESS_TOKEN' < load_from_one_lake.cypher > new_load_from_one_lake.cypher
+envsubst '$ACCESS_TOKEN' < load_from_lakehouse.cypher > new_load_from_lakehouse.cypher
 
 echo 'Now loading One Lake Data into Neo4j database...'
 
-cat new_load_from_one_lake.cypher | cypher-shell -u neo4j -p P@55w0rd@2023  -a neo4j://node000000:7687
+cat new_load_from_lakehouse.cypher | cypher-shell -u neo4j -p P@55w0rd@2023  -a neo4j://node000000:7687
 
 echo 'Successfully loaded data from One Lake into Neo4j Database!'
