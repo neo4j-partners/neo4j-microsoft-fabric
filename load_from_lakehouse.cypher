@@ -1,10 +1,10 @@
 :params {accessToken:'Bearer $ACCESS_TOKEN',
-productFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/products.json',
-categoriesFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/categories.json',
-customerFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/customers.json',
-orderFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/orders.json',
-supplierFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/suppliers.json',
-orderDetailFileURL:'https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse/Files/Northwind/order-details.json'};
+productFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/products.json',
+categoriesFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/categories.json',
+customerFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/customers.json',
+orderFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/orders.json',
+supplierFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/suppliers.json',
+orderDetailFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/order-details.json'};
 CALL apoc.load.jsonParams($productFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (product:Product{productID:value.productID})
 SET product.productName = value.productName, product.quantityPerUnit=value.quantityPerUnit, product.unitPrice=value.unitPrice, product.unitsInStock=value.unitsInStock, product.reorderLevel=value.reorderLevel, product.discontinued=value.discontinued
