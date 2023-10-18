@@ -32,7 +32,7 @@ WITH c, value
 UNWIND value.customerID AS contact
 MERGE (cnt:Contact{contactID: value.customerID})
 SET cnt.contactID = value.customerID, cnt.contactName=value.contactName,cnt.contactTitle=value.contactTitle
-MERGE (cnt)-[:COMPANY_CONTACT]->(c);
+MERGE (c)-[:HAS_CONTACT]->(cnt);
 CALL apoc.load.jsonParams($supplierFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (s:Supplier{supplierID:value.supplierID})
 SET s.companyName = value.companyName
@@ -45,7 +45,7 @@ WITH s, value
 UNWIND value.supplierID AS contact
 MERGE (scnt:Contact{contactID: value.supplierID})
 SET scnt.contactID = value.supplierID, scnt.contactName=value.contactName,scnt.contactTitle=value.contactTitle
-MERGE (scnt)-[:SUPPLIER_CONTACT]->(s);
+MERGE (c)-[:HAS_CONTACT]->(scnt);
 CALL apoc.load.jsonParams($orderFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (o:Order{orderID:value.orderID})
 SET o.orderDate = value.orderDate, o.shippedDate=value.shippedDate,o.shipVia=value.shipVia,o.freight=value.freight
