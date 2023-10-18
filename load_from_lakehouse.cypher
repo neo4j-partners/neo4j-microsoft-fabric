@@ -40,7 +40,7 @@ WITH c, value
 UNWIND value.supplierID AS address
 MERGE (a:Address{addressID: value.supplierID})
 SET a.address = value.address, a.city=value.city,a.country=value.country
-MERGE (a)-[:SUPPLIER_LOC]->(c)
+MERGE (a)-[:LOCATED_AT]->(c)
 WITH c, value
 UNWIND value.supplierID AS contact
 MERGE (cnt:Contact{contactID: value.supplierID})
