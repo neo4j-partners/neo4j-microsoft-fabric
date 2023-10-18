@@ -27,25 +27,25 @@ WITH c, value
 UNWIND value.customerID AS address
 MERGE (a:Address{addressID: value.customerID})
 SET a.address = value.address, a.city=value.city,a.country=value.country
-MERGE (a)-[:LOCATED_AT]->(c)
+MERGE (c)-[:LOCATED_AT]->(a)
 WITH c, value
 UNWIND value.customerID AS contact
 MERGE (cnt:Contact{contactID: value.customerID})
 SET cnt.contactID = value.customerID, cnt.contactName=value.contactName,cnt.contactTitle=value.contactTitle
 MERGE (cnt)-[:COMPANY_CONTACT]->(c);
 CALL apoc.load.jsonParams($supplierFileURL,{Authorization:$accessToken},null)
-YIELD value MERGE (c:Supplier{supplierID:value.supplierID})
-SET c.companyName = value.companyName
-WITH c, value
+YIELD value MERGE (s:Supplier{supplierID:value.supplierID})
+SET s.companyName = value.companyName
+WITH s, value
 UNWIND value.supplierID AS address
-MERGE (a:Address{addressID: value.supplierID})
-SET a.address = value.address, a.city=value.city,a.country=value.country
-MERGE (a)-[:LOCATED_AT]->(c)
-WITH c, value
+MERGE (sa:Address{addressID: value.supplierID})
+SET sa.address = value.address, sa.city=value.city,sa.country=value.country
+MERGE (s)-[:LOCATED_AT]->(sa)
+WITH s, value
 UNWIND value.supplierID AS contact
-MERGE (cnt:Contact{contactID: value.supplierID})
-SET cnt.contactID = value.supplierID, cnt.contactName=value.contactName,cnt.contactTitle=value.contactTitle
-MERGE (cnt)-[:SUPPLIER_CONTACT]->(c);
+MERGE (scnt:Contact{contactID: value.supplierID})
+SET scnt.contactID = value.supplierID, scnt.contactName=value.contactName,scnt.contactTitle=value.contactTitle
+MERGE (scnt)-[:SUPPLIER_CONTACT]->(s);
 CALL apoc.load.jsonParams($orderFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (o:Order{orderID:value.orderID})
 SET o.orderDate = value.orderDate, o.shippedDate=value.shippedDate,o.shipVia=value.shipVia,o.freight=value.freight
