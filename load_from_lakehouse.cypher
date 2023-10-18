@@ -61,7 +61,7 @@ MERGE (customerOrd)-[:ORDERED]->(o)
 WITH o, value
 UNWIND value.employeeID AS emp
 MERGE (empOrd:Employee{employeeID:value.employeeID})
-MERGE (o)-[:ORDER_PROCESSED_BY]->(empOrd);
+MERGE (o)-[:PROCESSED_BY]->(empOrd);
 CALL apoc.load.jsonParams($orderDetailFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (o:Order{orderID:value.orderID})
 WITH o, value
