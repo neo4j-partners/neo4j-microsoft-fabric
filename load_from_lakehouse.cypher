@@ -52,7 +52,7 @@ SET o.orderDate = value.orderDate, o.shippedDate=value.shippedDate,o.shipVia=val
 WITH o, value
 UNWIND value.orderID AS address
 MERGE (saddr:Address{addressID: value.orderID})
-SET saddr.shipAddress = value.shipAddress, saddr.shipCity=value.shipCity,saddr.shipRegion=value.shipRegion,saddr.shipPostalCode=value.shipPostalCode,saddr.shipCountry=value.shipCountry
+SET saddr.address = value.shipAddress, saddr.city=value.shipCity,saddr.region=value.shipRegion,saddr.postalCode=value.shipPostalCode,saddr.country=value.shipCountry
 MERGE (o)-[:SHIPPED_TO]->(saddr)
 WITH o, value
 UNWIND value.customerID AS customer
