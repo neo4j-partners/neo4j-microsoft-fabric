@@ -39,7 +39,7 @@ SET s.companyName = value.companyName
 WITH s, value
 UNWIND value.supplierID AS address
 MERGE (sa:Address{addressID: value.supplierID})
-SET sa.address = value.address,sa.sa.city = value.city,sa.region = value.region,sa.postalCode = value.postalCode,sa.country = value.country
+SET sa.address = value.address,sa.city = value.city,sa.region = value.region,sa.postalCode = value.postalCode,sa.country = value.country
 MERGE (s)-[:LOCATED_AT]->(sa)
 WITH s, value
 UNWIND value.supplierID AS contact
