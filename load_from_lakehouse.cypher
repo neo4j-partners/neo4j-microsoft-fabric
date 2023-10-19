@@ -44,7 +44,7 @@ MERGE (s)-[:LOCATED_AT]->(sa)
 WITH s, value
 UNWIND value.supplierID AS contact
 MERGE (scnt:Contact{contactID: value.supplierID})
-SET scnt.contactID = value.supplierID, scnt.contactName=value.contactName,scnt.contactTitle=value.contactTitle
+SET scnt.contactID = value.supplierID, scnt.contactName=value.contactName,scnt.contactTitle=value.contactTitle,scnt.phone=value.phone,scnt.fax=value.fax,scnt.homePage=value.homePage
 MERGE (s)-[:HAS_CONTACT]->(scnt);
 CALL apoc.load.jsonParams($orderFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (o:Order{orderID:value.orderID})
