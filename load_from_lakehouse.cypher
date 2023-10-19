@@ -35,7 +35,7 @@ SET cnt.contactID = value.customerID, cnt.contactName=value.contactName,cnt.cont
 MERGE (c)-[:HAS_CONTACT]->(cnt);
 CALL apoc.load.jsonParams($supplierFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (s:Supplier{supplierID:value.supplierID})
-SET s.companyName = value.companyName
+SET s.supplierName = value.companyName
 WITH s, value
 UNWIND value.supplierID AS address
 MERGE (sa:Address{addressID: value.supplierID})
