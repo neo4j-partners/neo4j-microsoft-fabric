@@ -22,7 +22,7 @@ YIELD value MERGE (category:Category{categoryID:value.categoryID})
 SET category.categoryName = value.categoryName, category.description=value.description, category.picture=value.picture;
 CALL apoc.load.jsonParams($customerFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (c:Customer{customerID:value.customerID})
-SET c.companyName = value.companyName, c.Bloom_Link=value.Bloom_Link
+SET c.customerName = value.companyName, c.Bloom_Link=value.Bloom_Link
 WITH c, value
 UNWIND value.customerID AS address
 MERGE (a:Address{addressID: value.customerID})
@@ -31,7 +31,7 @@ MERGE (c)-[:LOCATED_AT]->(a)
 WITH c, value
 UNWIND value.customerID AS contact
 MERGE (cnt:Contact{contactID: value.customerID})
-SET cnt.contactID = value.customerID, cnt.contactName=value.contactName,cnt.contactTitle=value.contactTitle
+SET cnt.contactID = value.customerID, cnt.contactName=value.contactName,cnt.contactTitle=value.contactTitle,cnt.phone=value.phone, cnt.fax=value.fax
 MERGE (c)-[:HAS_CONTACT]->(cnt);
 CALL apoc.load.jsonParams($supplierFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (s:Supplier{supplierID:value.supplierID})
