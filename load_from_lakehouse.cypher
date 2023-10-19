@@ -26,7 +26,7 @@ SET c.companyName = value.companyName, c.Bloom_Link=value.Bloom_Link
 WITH c, value
 UNWIND value.customerID AS address
 MERGE (a:Address{addressID: value.customerID})
-SET a.address = value.address, a.city=value.city,a.country=value.country
+SET a.address = value.address, a.city=value.city,a.region = value.region,a.postalCode = value.postalCode,a.country=value.country
 MERGE (c)-[:LOCATED_AT]->(a)
 WITH c, value
 UNWIND value.customerID AS contact
@@ -39,7 +39,7 @@ SET s.companyName = value.companyName
 WITH s, value
 UNWIND value.supplierID AS address
 MERGE (sa:Address{addressID: value.supplierID})
-SET sa.address = value.address, sa.city=value.city,sa.country=value.country
+SET sa.address = value.address,sa.sa.city = value.city,sa.region = value.region,sa.postalCode = value.postalCode,sa.country = value.country
 MERGE (s)-[:LOCATED_AT]->(sa)
 WITH s, value
 UNWIND value.supplierID AS contact
