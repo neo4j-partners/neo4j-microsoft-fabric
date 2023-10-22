@@ -76,5 +76,6 @@ CALL apoc.load.jsonParams($employeeFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (emp:Employee{employeeID:value.employeeID})
 SET emp.lastName = value.lastName,emp.firstName = value.firstName,emp.title = value.title,emp.titleOfCourtesy = value.titleOfCourtesy,emp.homePhone = value.homePhone,emp.extension = value.extension, emp.notes = value.notes
 WITH emp, value
-UNWIND value.employeeID AS empID
-MERGE (emp)-[:REPORTS_TO]->(emp{employeeID:empID});
+UNWIND value.reportsTo AS repTo
+MERGE (e:Employee{employeeID: value.reportsTo})
+MERGE (emp)-[:REPORTS_TO]->(e)
