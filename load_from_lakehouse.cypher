@@ -8,7 +8,8 @@ orderDetailFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myL
 employeeFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/employees.json',
 regionFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/regions.json',
 territoryFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/territories.json',
-employeeTerritoryFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/employee_territories.json'};
+employeeTerritoryFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/employee_territories.json',
+shipperFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/shippers.json'};
 CALL apoc.load.jsonParams($productFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (product:Product{productID:value.productID})
 SET product.productName = value.productName, product.quantityPerUnit=value.quantityPerUnit, product.unitPrice=value.unitPrice, product.unitsInStock=value.unitsInStock, product.reorderLevel=value.reorderLevel, product.discontinued=value.discontinued
@@ -50,9 +51,12 @@ UNWIND value.supplierID AS contact
 MERGE (scnt:Contact{contactID: value.supplierID})
 SET scnt.contactID = value.supplierID, scnt.contactName=value.contactName,scnt.contactTitle=value.contactTitle,scnt.phone=value.phone,scnt.fax=value.fax,scnt.homePage=value.homePage
 MERGE (s)-[:HAS_CONTACT]->(scnt);
+CALL apoc.load.jsonParams($shipperFileURL,{Authorization:$accessToken},null)
+YIELD value MERGE (shp:Shipper{shipperID:value.shipperID})
+SET shp.companyName = value.companyName,shp.phone = value.phone;
 CALL apoc.load.jsonParams($orderFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (o:Order{orderID:value.orderID})
-SET o.orderDate = value.orderDate, o.shippedDate=value.shippedDate,o.shipVia=value.shipVia,o.freight=value.freight
+SET o.orderDate = value.orderDate, o.shippedDate=value.shippedDate,o.freight=value.freight
 WITH o, value
 UNWIND value.orderID AS address
 MERGE (saddr:Address{addressID: value.orderID})
@@ -65,7 +69,11 @@ MERGE (customerOrd)-[:ORDERED]->(o)
 WITH o, value
 UNWIND value.employeeID AS emp
 MERGE (empOrd:Employee{employeeID:value.employeeID})
-MERGE (o)-[:PROCESSED_BY]->(empOrd);
+MERGE (o)-[:PROCESSED_BY]->(empOrd)
+WITH o, value
+UNWIND value.shipVia AS shpBy
+MERGE (sBy:Shipper{shipperID:value.shipperID})
+MERGE (o)-[:SHIPPED_BY]->(sBy);
 CALL apoc.load.jsonParams($orderDetailFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (o:Order{orderID:value.orderID})
 WITH o, value
@@ -103,3 +111,5 @@ with em, value
 UNWIND em.employeeID AS terr
 MERGE (r:Territory{territoryID: value.territoryID})
 MERGE (em)-[:ASSIGNED_TO]->(r);
+
+
