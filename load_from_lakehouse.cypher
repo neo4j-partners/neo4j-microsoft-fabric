@@ -4,7 +4,8 @@ categoriesFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLa
 customerFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/customers.json',
 orderFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/orders.json',
 supplierFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/suppliers.json',
-orderDetailFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/order-details.json'};
+orderDetailFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/order-details.json',
+employeeFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/employees.json'};
 CALL apoc.load.jsonParams($productFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (product:Product{productID:value.productID})
 SET product.productName = value.productName, product.quantityPerUnit=value.quantityPerUnit, product.unitPrice=value.unitPrice, product.unitsInStock=value.unitsInStock, product.reorderLevel=value.reorderLevel, product.discontinued=value.discontinued
@@ -71,3 +72,9 @@ MERGE (o)-[:ORDER_CONTAINS]->(prdOrd);
 MATCH (c:Customer)-[:ORDERED]->(:Order)-[:ORDER_CONTAINS]->(p:Product)
 WITH DISTINCT c, p
 MERGE (c)-[:PURCHASED]->(p);
+CALL apoc.load.jsonParams($employeeFileURL,{Authorization:$accessToken},null)
+YIELD value MERGE (emp:Employee{employeeID:value.employeeID})
+SET emp.lastName = value.lastName,emp.firstName = value.firstName,emp.title = value.title,emp.titleOfCourtesy = value.titleOfCourtesy,emp.homePhone = value.homePhone,emp.extension = value.extension, emp.notes = value.notes
+WITH emp, value
+UNWIND value.employeeID AS empID
+MERGE (emp)-[:REPORTS_TO]->(emp{employeeID:empID});
