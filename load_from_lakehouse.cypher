@@ -5,7 +5,10 @@ customerFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLake
 orderFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/orders.json',
 supplierFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/suppliers.json',
 orderDetailFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/order-details.json',
-employeeFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/employees.json'};
+employeeFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/employees.json',
+regionFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/employees.json',
+territoryFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/employees.json',
+employeeTerritoryFileURL:'https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/myLakehouse.Lakehouse/Files/Northwind/employees.json'};
 CALL apoc.load.jsonParams($productFileURL,{Authorization:$accessToken},null)
 YIELD value MERGE (product:Product{productID:value.productID})
 SET product.productName = value.productName, product.quantityPerUnit=value.quantityPerUnit, product.unitPrice=value.unitPrice, product.unitsInStock=value.unitsInStock, product.reorderLevel=value.reorderLevel, product.discontinued=value.discontinued
@@ -84,3 +87,19 @@ UNWIND value.employeeID AS address
 MERGE (ea:Address{addressID: 'emp-'+value.employeeID})
 SET ea.address = value.address,ea.city = value.city,ea.region = value.region,ea.postalCode = value.postalCode,ea.country = value.country
 MERGE (emp)-[:RESIDES_AT]->(ea);
+CALL apoc.load.jsonParams($regionFileURL,{Authorization:$accessToken},null)
+YIELD value MERGE (reg:Region{regionID:value.regionID})
+SET reg.regionDescription = value.regionDescription;
+CALL apoc.load.jsonParams($territoryFileURL,{Authorization:$accessToken},null)
+YIELD value MERGE (ter:Territory{territoryID:value.territoryID})
+SET ter.territoryDescription = value.territoryDescription
+with ter, value
+UNWIND value.territoryID AS region
+MERGE (r:Region{regionID: value.regionID})
+MERGE (r)-[:PART_OF]->(ter);
+CALL apoc.load.jsonParams($employeeTerritoryFileURL,{Authorization:$accessToken},null)
+YIELD value MERGE (em:Employee{employeeID:value.employeeID})
+with em, value
+UNWIND em.employeeID AS terr
+MERGE (r:Territory{territoryID: value.territoryID})
+MERGE (em)-[:ASSIGNED_TO]->(r);
