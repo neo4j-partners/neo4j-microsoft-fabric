@@ -79,3 +79,8 @@ WITH emp, value
 UNWIND value.reportsTo AS repTo
 MERGE (e:Employee{employeeID: value.reportsTo})
 MERGE (emp)-[:REPORTS_TO]->(e)
+WITH emp, value
+UNWIND value.employeeID AS address
+MERGE (ea:Address{addressID: value.employeeID})
+SET ea.address = value.address,ea.city = value.city,ea.region = value.region,ea.postalCode = value.postalCode,ea.country = value.country
+MERGE (emp)-[:RESIDES_AT]->(ea);
