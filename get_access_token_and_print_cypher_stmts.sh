@@ -2,7 +2,7 @@ echo 'Getting Access Token from Azure Active Directory...'
 
 export ACCESS_TOKEN=$(az account get-access-token --resource https://storage.azure.com/ --query "accessToken" --output tsv)
 
-export FABRIC_LH_PATH='https://onelake.dfs.fabric.microsoft.com/guhanworkspace/myLakehouse.Lakehouse'
+export FABRIC_LH_PATH='https://onelake.dfs.fabric.microsoft.com/Neo4j_Workspace/Northwind_Lakehouse.Lakehouse'
 
 git reset --hard
 
