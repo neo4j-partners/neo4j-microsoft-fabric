@@ -1,7 +1,7 @@
 :params {accessToken:'Bearer $ACCESS_TOKEN',
 productFileURL:'$FABRIC_LH_PATH/Files/Northwind/products.json',
 categoriesFileURL:'$FABRIC_LH_PATH/Files/Northwind/categories.json',
-customerFileURL:'$FABRIC_LH_PATH/Northwind/customers.json',
+customerFileURL:'$FABRIC_LH_PATH/Files/Northwind/customers.json',
 orderFileURL:'$FABRIC_LH_PATH/Files/Northwind/orders.json',
 supplierFileURL:'$FABRIC_LH_PATH/Files/Northwind/suppliers.json',
 orderDetailFileURL:'$FABRIC_LH_PATH/Files/Northwind/order-details.json',
