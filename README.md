@@ -16,15 +16,16 @@ This repository contains several methods to load data from Microsoft Fabric's La
 - The script uses APOC Load JSON procedures to retrieve data from URLs or maps and transform it into map values that Cypher can consume. Cypher supports deconstructing nested documents with features like dot syntax, slices, UNWIND, and more, making it easy to turn nested data into graphs. Make sure you have the APOC library is installed in your Neo4j instance.
 - Execute the Cypher query from Neo4j Browser to import data into your Neo4j database.
 
-## Utility: Getting an Access Token (get_access_token.sh)
+## Method 3: Load from GitHub (load_from_github.cypher)
+- The Cypher query file includes identical queries as previously mentioned, but with all file URLs pointing to this GitHub repository.
+
+## Utility: Getting an Access Token (get_access_token_and_print_cypher_stmts.sh)
 
 **Description:**
 - The purpose of this shell script is to obtain an access token from Azure Active Directory.
 - You can use this access token as a parameter in the Cypher file above, to allow Neo4j to access Microsoft Fabric's Lakehouse content securely.
 
-## Method 3: Load from GitHub (load_from_github.cypher)
-- The Cypher query file includes identical queries as previously mentioned, but with all file URLs pointing to this GitHub repository.
-
 Please refer to the individual script files for detailed usage instructions. You'll find the necessary information to get started with these data loading methods.
 
 If you have any questions or need assistance, feel free to reach out. Happy data loading!
+
