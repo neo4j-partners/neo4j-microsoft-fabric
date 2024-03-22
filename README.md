@@ -1,8 +1,8 @@
-# Loading data from Microsoft Fabric's Lakehouse into Neo4j Graph Database
+# Integrating Data from Microsoft Fabric's Lakehouse with Neo4j Graph Database
 
-This repository contains two different methods to load data from Microsoft Fabric's Lakehouse into Neo4j using different technologies. Whether you prefer using Spark based Jupyter Notebook or Cypher queries and a shell script to get an access token, you'll find a solution that suits your needs.
+This repository contains several methods to load data from Microsoft Fabric's Lakehouse into Neo4j using different technologies. Whether you prefer using Spark based Jupyter Notebook or Cypher queries, you'll find a solution that suits your needs.
 
-## Method 1: Using Spark Jupyter Notebook (load_from_spark.ipynb)
+## Method 1: Using Synapse Data Engineering Module and neo4j spark connector (load_from_data_engg_nb.ipynb)
 
 **Description:**
 - This Spark-based Python code allows you to read data from Microsoft Fabric's Lakehouse using Fabric Data Engineering module.
