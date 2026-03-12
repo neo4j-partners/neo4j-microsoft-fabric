@@ -9,7 +9,7 @@ CREATE CONSTRAINT sup_id_cnstrnt IF NOT EXISTS FOR (s:Supplier) REQUIRE (s.suppl
 
 
 //Customers
-LOAD CSV WITH HEADERS FROM '<YOUR_FILE_URL_BASE>/customer/customers.csv' AS row
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/neo4j-partners/neo4j-microsoft-fabric/refs/heads/main/data/csv/customers.csv' AS row
 MERGE (c:Customer {customerID: row.customerID})
 SET c.companyName = row.companyName,
     c.contactName = row.contactName,
@@ -23,7 +23,7 @@ SET c.companyName = row.companyName,
     c.fax = row.fax;
 
 //Suppliers
-LOAD CSV WITH HEADERS FROM '<YOUR_FILE_URL_BASE>/supplier/suppliers.csv' AS row
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/neo4j-partners/neo4j-microsoft-fabric/refs/heads/main/data/csv/suppliers.csv' AS row
 MERGE (s:Supplier {supplierID: row.supplierID})
 SET s.companyName = row.companyName,
     s.contactName = row.contactName,
@@ -36,7 +36,7 @@ SET s.companyName = row.companyName,
     s.phone = row.phone;
 
 //Categories
-LOAD CSV WITH HEADERS FROM '<YOUR_FILE_URL_BASE>/products/categories.csv' AS row
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/neo4j-partners/neo4j-microsoft-fabric/refs/heads/main/data/csv/categories.csv' AS row
 MERGE (c:Category {categoryID: row.categoryID})
 SET c.categoryName = row.categoryName,
     c.description = row.description;
@@ -45,7 +45,7 @@ SET c.categoryName = row.categoryName,
 // Load nodes that connect back to the independent nodes we just created.
 
 //Products
-LOAD CSV WITH HEADERS FROM '<YOUR_FILE_URL_BASE>/products/products.csv' AS row
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/neo4j-partners/neo4j-microsoft-fabric/refs/heads/main/data/csv/products.csv' AS row
 MERGE (p:Product {productID: row.productID})
 SET p.productName = row.productName,
     p.quantityPerUnit = row.quantityPerUnit,
@@ -62,7 +62,7 @@ MATCH (c:Category {categoryID: row.categoryID})
 MERGE (p)-[:PART_OF]->(c);
 
 //Orders
-LOAD CSV WITH HEADERS FROM '<YOUR_FILE_URL_BASE>/order/orders.csv' AS row
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/neo4j-partners/neo4j-microsoft-fabric/refs/heads/main/data/csv/orders.csv' AS row
 MERGE (o:Order {orderID: row.orderID})
 SET o.orderDate = row.orderDate,
     o.requiredDate = row.requiredDate,
@@ -82,7 +82,7 @@ MERGE (c)-[:PURCHASED]->(o);
 //Connect Orders to Products using the order-details CSV.
 
 //Order Details
-LOAD CSV WITH HEADERS FROM '<YOUR_FILE_URL_BASE>/order/order-details.csv' AS row
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/neo4j-partners/neo4j-microsoft-fabric/refs/heads/main/data/csv/order-details.csv' AS row
 MATCH (o:Order {orderID: row.orderID})
 MATCH (p:Product {productID: row.productID})
 MERGE (o)-[rel:ORDERS]->(p)
